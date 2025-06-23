@@ -68,7 +68,7 @@ export default function Header() {
       <Link href="/" className="text-xl md:text-3xl font-bold text-gray-800">
         My Blog
       </Link>
-      <nav className="space-x-6 text-lg md:text-md font-medium">
+      <nav className="space-x-6 text-sm md:text-lg md:text-md font-medium">
         {!loggedIn ? (
           <>
             <Link

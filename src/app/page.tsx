@@ -15,7 +15,7 @@ const Home = async () => {
 
   return (
     <main className="min-h-screen bg-gray-50 ">
-      <section className="px-4 sm:px-6 py-10 max-w-7xl mx-auto">
+      <section className="px-4 sm:px-6 py-3 md:py-10 max-w-7xl mx-auto">
         <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-center py-4 text-gray-900">
           📝 Blog Posts
         </h2>

@@ -28,14 +28,14 @@ export default function BlogCard({ post }: BlogCardProps) {
             {!expanded && "... "}
             <button
               onClick={toggleExpanded}
-              className="text-blue-600 hover:underline text-sm ml-1"
+              className="text-blue-600 hover:underline text-sm ml-1 underline"
             >
               {expanded ? "Read Less" : "Read More"}
             </button>
           </>
         )}
       </p>
-      <p className="text-xs sm:text-sm text-gray-400 mt-4">
+      <p className="text-xs sm:text-sm text-gray-600 mt-4">
         By {post.author_email} on{" "}
         {new Date(post.created_at).toLocaleDateString()}
       </p>

@@ -30,27 +30,31 @@ export default async function DashboardPage() {
 
   return (
     <main className="min-h-screen px-4 py-8 max-w-7xl mx-auto">
-      <div className="flex flex-col sm:flex-row justify-between items-center mb-8">
+      {/* Header Section */}
+      <div className="flex flex-col sm:flex-row gap-4 sm:gap-0 justify-between items-start sm:items-center mb-8">
         <div>
-          <h1 className="text-3xl text-white font-bold">Dashboard</h1>
-          <p className="text-gray-300 text-sm mt-1">
+          <h1 className="text-3xl hidden md:block text-white font-bold">
+            Dashboard
+          </h1>
+          <p className="text-gray-300 text-sm mt-0 md:mt-1">
             Logged in as <strong>{user.email}</strong>
           </p>
         </div>
         <Link
           href="/dashboard/create"
-          className="mt-4 sm:mt-0 inline-block bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition"
+          className="w-full sm:w-auto bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition text-center"
         >
           + Create Post
         </Link>
       </div>
 
+      {/* Posts Section */}
       {posts.length === 0 ? (
         <p className="text-gray-500 text-center">
           You haven’t written any posts yet.
         </p>
       ) : (
-        <div className="grid gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {posts.map((post) => (
             <BlogCard key={post.id} post={post} />
           ))}
