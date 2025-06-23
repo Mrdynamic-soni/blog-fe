@@ -2,69 +2,59 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import jwt from "jsonwebtoken";
 import { JWTPayload, Post } from "@/types";
+import BlogCard from "@/component/BlogCard";
+import Link from "next/link";
 
 export default async function DashboardPage() {
   const cookieStore = await cookies();
   const token = cookieStore.get("token")?.value;
 
-  console.log("Token from cookies:", token);
+  if (!token) redirect("/login");
 
-  // 2. If no token, redirect to login
-  if (!token) {
-    redirect("/login");
-  }
-
-  // 3. Decode and verify JWT
   let user: JWTPayload;
   try {
     user = jwt.verify(token, process.env.JWT_SECRET!) as JWTPayload;
-    console.log("Decoded user:", user);
   } catch (err) {
-    console.error("Invalid or expired token:", err);
     redirect("/login");
   }
 
-  // 4. Fetch user's posts
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_API_LOCAL_URL}/posts/posts?author=${user.userId}`,
-    {
-      cache: "no-store",
-      credentials: "include",
-    }
+    { cache: "no-store", credentials: "include" }
   );
 
-  if (!res.ok) {
-    redirect("/login");
-  }
+  if (!res.ok) redirect("/login");
 
   const posts: Post[] = await res.json();
 
   return (
-    <main className="min-h-screen px-4 py-8 max-w-2xl mx-auto">
-      <h1 className="text-3xl font-bold mb-4 text-center">Dashboard</h1>
-      <p className="text-center mb-6 text-gray-600">
-        Logged in as <strong>{user.email}</strong>
-      </p>
+    <main className="min-h-screen px-4 py-8 max-w-7xl mx-auto">
+      <div className="flex flex-col sm:flex-row justify-between items-center mb-8">
+        <div>
+          <h1 className="text-3xl text-white font-bold">Dashboard</h1>
+          <p className="text-gray-300 text-sm mt-1">
+            Logged in as <strong>{user.email}</strong>
+          </p>
+        </div>
+        <Link
+          href="/dashboard/create"
+          className="mt-4 sm:mt-0 inline-block bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition"
+        >
+          + Create Post
+        </Link>
+      </div>
 
-      <section className="space-y-4">
-        <h2 className="text-xl font-semibold mb-2">Your Posts</h2>
-        {posts.length === 0 ? (
-          <p className="text-gray-500">You haven’t written any posts yet.</p>
-        ) : (
-          posts.map((post) => (
-            <div
-              key={post.id}
-              className="border border-gray-200 rounded-md p-4"
-            >
-              <h3 className="text-lg font-semibold">{post.title}</h3>
-              <p className="text-gray-700 mt-1">{post.content}</p>
-              <p className="text-xs text-gray-500 mt-2">
-                Posted on {new Date(post.createdAt).toLocaleString()}
-              </p>
-            </div>
-          ))
-        )}
-      </section>
+      {posts.length === 0 ? (
+        <p className="text-gray-500 text-center">
+          You haven’t written any posts yet.
+        </p>
+      ) : (
+        <div className="grid gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+          {posts.map((post) => (
+            <BlogCard key={post.id} post={post} />
+          ))}
+        </div>
+      )}
     </main>
   );
 }
