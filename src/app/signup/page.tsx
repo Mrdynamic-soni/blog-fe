@@ -4,8 +4,10 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Eye, EyeOff, Mail, Lock } from "lucide-react";
+import { useRedirectIfAuthenticated } from "@/lib/auth/checkAndRedirect";
 
 export default function SignupPage() {
+  useRedirectIfAuthenticated();
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -47,14 +49,17 @@ export default function SignupPage() {
     if (!isValid) return;
 
     try {
-      const res = await fetch(`${process.env.API_LOCAL_URL}/auth/signup`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-        body: JSON.stringify({ email, password }),
-      });
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_LOCAL_URL}/auth/signup`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+          body: JSON.stringify({ email, password }),
+        }
+      );
 
       const data = await res.json();
 
@@ -69,7 +74,7 @@ export default function SignupPage() {
   };
 
   return (
-    <main className="min-h-screen flex flex-col items-center justify-center bg-gray-50 px-4">
+    <main className="min-h-screen flex flex-col items-center  justify-start lg:justify-center pt-24 lg:pt-2 bg-gray-50 px-4">
       <form
         onSubmit={handleSignup}
         className="bg-white p-6 rounded-xl shadow-md w-full max-w-md space-y-5"

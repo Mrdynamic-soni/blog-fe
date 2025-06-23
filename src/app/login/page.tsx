@@ -3,9 +3,11 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { Eye, EyeOff, Mail, Lock } from "lucide-react";
+import { Eye, EyeOff, Mail, Lock, Loader2 } from "lucide-react";
+import { useRedirectIfAuthenticated } from "@/lib/auth/checkAndRedirect";
 
 export default function LoginPage() {
+  useRedirectIfAuthenticated();
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -13,6 +15,7 @@ export default function LoginPage() {
   const [error, setError] = useState("");
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
+  const [loading, setLoading] = useState(false); // <-- loading state
 
   const validateEmail = (email: string) => {
     const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -20,7 +23,6 @@ export default function LoginPage() {
   };
 
   const validatePassword = (password: string) => {
-    // At least 1 lowercase, 1 uppercase, 1 digit, 1 special char, min 6 chars
     const pattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{6,}$/;
     return pattern.test(password);
   };
@@ -30,6 +32,7 @@ export default function LoginPage() {
     setError("");
     setEmailError("");
     setPasswordError("");
+    setLoading(true); // start loading
 
     let isValid = true;
 
@@ -45,27 +48,35 @@ export default function LoginPage() {
       isValid = false;
     }
 
-    if (!isValid) return;
+    if (!isValid) {
+      setLoading(false); // stop loading
+      return;
+    }
 
     try {
-      const res = await fetch(`${process.env.API_LOCAL_URL}/auth/login`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-        body: JSON.stringify({ email, password }),
-      });
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_LOCAL_URL}/auth/login`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+          body: JSON.stringify({ email, password }),
+        }
+      );
 
       const data = await res.json();
 
       if (!res.ok) {
         throw new Error(data.message || "Login failed");
       }
-
+      window.dispatchEvent(new Event("userLoggedIn"));
       router.push("/dashboard");
     } catch (err: any) {
       setError(err.message || "An unexpected error occurred");
+    } finally {
+      setLoading(false); // stop loading
     }
   };
 
@@ -120,11 +131,20 @@ export default function LoginPage() {
           )}
         </div>
 
+        {/* Submit Button */}
         <button
           type="submit"
-          className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700"
+          className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 flex items-center justify-center gap-2 disabled:opacity-70"
+          disabled={loading}
         >
-          Login
+          {loading ? (
+            <>
+              <Loader2 className="animate-spin" size={18} />
+              Logging in...
+            </>
+          ) : (
+            "Login"
+          )}
         </button>
 
         <p className="text-center text-sm text-gray-600">

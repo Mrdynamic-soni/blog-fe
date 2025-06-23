@@ -13,3 +13,18 @@ export interface User {
     email: string;
     created_at: string;
 }  
+
+export interface JWTPayload {
+  userId: number;
+  email: string;
+  ist?: number;
+  exp?: number;
+}
+
+
+export  interface Post {
+  id: number;
+  title: string;
+  content: string;
+  createdAt: string;
+}
