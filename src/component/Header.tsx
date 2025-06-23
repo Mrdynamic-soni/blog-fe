@@ -20,6 +20,7 @@ export default function Header() {
       );
       setLoggedIn(res.ok);
     } catch (err) {
+      console.error("Error checking authentication:", err);
       setLoggedIn(false);
     }
   };
@@ -64,7 +65,7 @@ export default function Header() {
 
   return (
     <header className="bg-white shadow-md py-4 px-6 md:px-16 lg:px-80 flex justify-between items-center fixed top-0 left-0 right-0 z-50 ">
-      <Link href="/" className="text-3xl font-bold text-gray-800">
+      <Link href="/" className="text-xl md:text-3xl font-bold text-gray-800">
         My Blog
       </Link>
       <nav className="space-x-6 text-lg md:text-md font-medium">

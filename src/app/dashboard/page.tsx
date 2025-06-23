@@ -14,7 +14,8 @@ export default async function DashboardPage() {
   let user: JWTPayload;
   try {
     user = jwt.verify(token, process.env.JWT_SECRET!) as JWTPayload;
-  } catch (err) {
+  } catch (err1) {
+    console.error("JWT verification failed:", err1);
     redirect("/login");
   }
 

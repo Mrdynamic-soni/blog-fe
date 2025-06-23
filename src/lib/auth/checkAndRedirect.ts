@@ -24,6 +24,7 @@ export const useRedirectIfAuthenticated = () => {
           router.replace("/dashboard");
         }
       } catch (err) {
+        console.error("Error checking authentication:", err);
         // Not authenticated; do nothing
       }
     };

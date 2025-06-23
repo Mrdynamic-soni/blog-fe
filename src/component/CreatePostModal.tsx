@@ -37,8 +37,9 @@ const CreatePostModal = ({ userId }: Props) => {
         const data = await res.json();
         throw new Error(data.message || "Failed to create post");
       }
-    } catch (err: any) {
-      setError(err.message || "Something went wrong");
+    } catch (err) {
+      console.error("Error creating post:", err);
+      setError("Something went wrong");
     } finally {
       setLoading(false);
       router.push("/dashboard");

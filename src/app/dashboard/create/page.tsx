@@ -14,6 +14,7 @@ export default async function CreatePostPage() {
   try {
     user = jwt.verify(token, process.env.JWT_SECRET!) as JWTPayload;
   } catch (err) {
+    console.error("JWT verification failed:", err);
     redirect("/login");
   }
 

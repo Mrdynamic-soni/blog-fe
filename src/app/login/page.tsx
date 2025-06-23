@@ -73,8 +73,9 @@ export default function LoginPage() {
       }
       window.dispatchEvent(new Event("userLoggedIn"));
       router.push("/dashboard");
-    } catch (err: any) {
-      setError(err.message || "An unexpected error occurred");
+    } catch (err) {
+      console.error("Login error:", err);
+      setError("An unexpected error occurred");
     } finally {
       setLoading(false); // stop loading
     }
