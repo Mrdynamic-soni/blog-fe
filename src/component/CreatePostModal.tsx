@@ -3,6 +3,7 @@
 
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
+import { Loader2 } from "lucide-react";
 
 type Props = {
   userId: number;
@@ -92,9 +93,16 @@ const CreatePostModal = ({ userId }: Props) => {
             <button
               type="submit"
               disabled={loading}
-              className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+              className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 flex items-center justify-center gap-2 disabled:opacity-70"
             >
-              {loading ? "Creating..." : "Create"}
+              {loading ? (
+                <>
+                  <Loader2 className="animate-spin" size={18} />
+                  Creating...
+                </>
+              ) : (
+                "Create"
+              )}
             </button>
           </div>
         </form>
