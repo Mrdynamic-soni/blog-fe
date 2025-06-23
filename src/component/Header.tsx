@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import clsx from "clsx";
 import { useEffect, useState } from "react";
+import { logoutAction } from "@/lib/auth/logoutAction";
 
 export default function Header() {
   const pathname = usePathname();
@@ -49,6 +50,7 @@ export default function Header() {
       );
 
       if (res.ok) {
+        await logoutAction();
         localStorage.clear();
         sessionStorage.clear();
       }

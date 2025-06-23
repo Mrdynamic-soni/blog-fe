@@ -4,7 +4,6 @@ import jwt from "jsonwebtoken";
 import { JWTPayload, Post } from "@/types";
 
 export default async function DashboardPage() {
-  // 1. Get token from HTTP-only cookies
   const cookieStore = await cookies();
   const token = cookieStore.get("token")?.value;
 
@@ -29,23 +28,22 @@ export default async function DashboardPage() {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_API_LOCAL_URL}/posts/posts?author=${user.userId}`,
     {
-      cache: "no-store", // Ensure fresh data
+      cache: "no-store",
+      credentials: "include",
     }
   );
 
   if (!res.ok) {
-    console.error("Failed to fetch posts:", res.status, res.statusText);
     redirect("/login");
   }
 
   const posts: Post[] = await res.json();
 
-  // 5. Render dashboard UI
   return (
     <main className="min-h-screen px-4 py-8 max-w-2xl mx-auto">
       <h1 className="text-3xl font-bold mb-4 text-center">Dashboard</h1>
       <p className="text-center mb-6 text-gray-600">
-        Logged in as {user.email}
+        Logged in as <strong>{user.email}</strong>
       </p>
 
       <section className="space-y-4">
