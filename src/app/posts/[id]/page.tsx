@@ -40,19 +40,6 @@ async function getPost(id: string): Promise<Post | null> {
   }
 }
 
-export async function generateStaticParams() {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_LOCAL_URL}/posts/posts`,
-    {
-      cache: "force-cache",
-      next: { tags: ["posts"] },
-    }
-  );
-  if (!res.ok) return [];
-  const posts: Post[] = await res.json();
-  return posts.map((post) => ({ id: post.id.toString() }));
-}
-
 export const dynamicParams = true;
 export const revalidate = 60;
 
