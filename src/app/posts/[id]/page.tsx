@@ -65,16 +65,16 @@ export default async function BlogPostPage({
           By {post.author_email} on{" "}
           {new Date(post.created_at).toLocaleDateString()}
         </p>
-        <div className="text-gray-800 text-base whitespace-pre-line break-words">
+        <div className="text-gray-800 text-base whitespace-pre-line break-words mb-8">
           {post.content}
         </div>
+        <Link
+          href={backHref}
+          className="text-sm  border-2 border-blue-600 px-4 py-2 rounded-lg transition-colors duration-200  bg-blue-600 hover:bg-blue-800 text-white "
+        >
+          Go Back
+        </Link>
       </article>
-      <Link
-        href={backHref}
-        className="mt-4 self-end text-sm text-blue-600 hover:underline"
-      >
-        ← Go Back
-      </Link>
     </main>
   );
 }
