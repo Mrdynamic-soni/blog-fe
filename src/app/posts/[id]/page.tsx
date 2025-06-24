@@ -10,7 +10,7 @@ interface PageProps {
 async function getPost(id: string): Promise<Post | null> {
   try {
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_LOCAL_URL}/posts/posts?postid=${id}`,
+      `${process.env.NEXT_PUBLIC_API_URL}/posts/posts?postid=${id}`,
       {
         cache: "force-cache",
         next: { tags: [`post-${id}`] },

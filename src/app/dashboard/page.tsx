@@ -20,7 +20,7 @@ export default async function DashboardPage() {
   }
 
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_LOCAL_URL}/posts/posts?author=${user.userId}`,
+    `${process.env.NEXT_PUBLIC_API_URL}/posts/posts?author=${user.userId}`,
     { cache: "no-store", credentials: "include" }
   );
 

@@ -63,6 +63,7 @@ blog-fe/                # Frontend (Next.js 14, TypeScript)
    - Create a `.env.local` file in the root:
      ```
      NEXT_PUBLIC_API_LOCAL_URL=http://localhost:8080
+     NEXT_PUBLIC_API_URL=https://blog-be-g7o8.onrender.com
      JWT_SECRET=your_jwt_secret
      ```
 
@@ -83,8 +84,6 @@ blog-fe/                # Frontend (Next.js 14, TypeScript)
 - `yarn start` — Start the production server
 
 ---
-
-
 
 ## Choices & Considerations
 

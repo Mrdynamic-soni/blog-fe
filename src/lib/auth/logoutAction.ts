@@ -19,7 +19,7 @@ export async function logoutAction() {
   })
 
   try {
-    await fetch(`${process.env.NEXT_PUBLIC_API_LOCAL_URL}/auth/logout`, {
+    await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/logout`, {
       method: 'POST',
       credentials: 'include',
     })

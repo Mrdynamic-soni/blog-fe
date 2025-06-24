@@ -16,7 +16,7 @@ export const useRedirectIfAuthenticated = () => {
 
     const checkAuth = async () => {
       try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_LOCAL_URL}/auth/me`, {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/me`, {
           credentials: "include",
         });
 

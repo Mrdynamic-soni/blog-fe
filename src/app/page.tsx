@@ -3,13 +3,10 @@ import React from "react";
 import { Post } from "@/types";
 import BlogCard from "@/component/BlogCard";
 const Home = async () => {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_LOCAL_URL}/posts/posts`,
-    {
-      cache: "no-store",
-      credentials: "include",
-    }
-  );
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/posts/posts`, {
+    cache: "no-store",
+    credentials: "include",
+  });
 
   const posts: Post[] = await res.json();
 

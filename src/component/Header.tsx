@@ -13,13 +13,10 @@ export default function Header() {
 
   const checkAuth = async () => {
     try {
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_LOCAL_URL}/auth/me`,
-        {
-          credentials: "include",
-          cache: "no-store",
-        }
-      );
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/me`, {
+        credentials: "include",
+        cache: "no-store",
+      });
       setLoggedIn(res.ok);
     } catch (err) {
       console.error("Failed to check auth:", err);

@@ -50,7 +50,7 @@ export default function SignupPage() {
 
     try {
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_LOCAL_URL}/auth/signup`,
+        `${process.env.NEXT_PUBLIC_API_URL}/auth/signup`,
         {
           method: "POST",
           headers: {
