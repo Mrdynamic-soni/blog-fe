@@ -1,6 +1,6 @@
 # Personal Blog Platform
 
-A full-stack personal blog platform where users can sign up, log in, and post articles. Built with Node.js/Express (backend) and Next.js 14 with TypeScript (frontend).
+A full-stack personal blog platform where users can sign up, log in, read articles and post their own articles. Built with Next.js 15 with TypeScript .
 
 ---
 
@@ -48,7 +48,7 @@ blog-fe/                # Frontend (Next.js 14, TypeScript)
 1. **Clone the repository:**
 
    ```bash
-   git clone <your-repo-url>
+   git clone https://github.com/Mrdynamic-soni/blog-fe.git
    cd blog-fe
    ```
 
@@ -62,7 +62,7 @@ blog-fe/                # Frontend (Next.js 14, TypeScript)
 
    - Create a `.env.local` file in the root:
      ```
-     NEXT_PUBLIC_API_LOCAL_URL=http://localhost:5000
+     NEXT_PUBLIC_API_LOCAL_URL=http://localhost:8080
      JWT_SECRET=your_jwt_secret
      ```
 
@@ -84,13 +84,7 @@ blog-fe/                # Frontend (Next.js 14, TypeScript)
 
 ---
 
-## Notes
 
-- The backend API should be running and accessible at the URL specified in `NEXT_PUBLIC_API_LOCAL_URL`.
-- Ensure CORS and credentials are properly configured on the backend for authentication to work.
-- For static generation of posts, implement `[id]/page.tsx` in `app/posts/` and use Next.js SSG features.
-
----
 
 ## Choices & Considerations
 

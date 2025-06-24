@@ -22,6 +22,7 @@ export default function Header() {
       );
       setLoggedIn(res.ok);
     } catch (err) {
+      console.error("Failed to check auth:", err);
       setLoggedIn(false);
     }
   };
