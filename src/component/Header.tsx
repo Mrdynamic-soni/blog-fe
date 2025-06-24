@@ -5,50 +5,47 @@ import { usePathname, useRouter } from "next/navigation";
 import clsx from "clsx";
 import { useEffect, useState } from "react";
 import { logoutAction } from "@/lib/auth/logoutAction";
+import { checkAuthStatus } from "@/lib/auth/checkAndRedirect";
 
 export default function Header() {
   const pathname = usePathname();
   const router = useRouter();
   const [loggedIn, setLoggedIn] = useState(false);
 
+  // Check authentication status
   const checkAuth = async () => {
-    try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/me`, {
-        credentials: "include",
-        cache: "no-store",
-      });
-      setLoggedIn(res.ok);
-    } catch (err) {
-      console.error("Failed to check auth:", err);
-      setLoggedIn(false);
-    }
+    setLoggedIn(await checkAuthStatus());
   };
 
   useEffect(() => {
     checkAuth();
-    const interval = setInterval(checkAuth, 30000); // Check auth every 30 seconds
+    const interval = setInterval(checkAuth, 30000);
 
-    return () => clearInterval(interval);
+    // Listen for login/logout events and update auth state immediately
+    const handleUserChange = () => checkAuth();
+    window.addEventListener("userLoggedIn", handleUserChange);
+    window.addEventListener("userLoggedOut", handleUserChange);
+
+    return () => {
+      clearInterval(interval);
+      window.removeEventListener("userLoggedIn", handleUserChange);
+      window.removeEventListener("userLoggedOut", handleUserChange);
+    };
   }, []);
 
   const handleLogout = async () => {
     if (!window.confirm("Are you sure you want to log out?")) return;
 
     try {
-      // Clear client storage first
       localStorage.clear();
       sessionStorage.clear();
-
-      // Execute server action
       await logoutAction();
-
-      // Update state and redirect
       setLoggedIn(false);
+      window.dispatchEvent(new Event("userLoggedOut"));
       router.push("/");
-      router.refresh(); // Force refresh to ensure clean state
+      router.refresh();
     } catch (err) {
       console.error("Logout failed:", err);
-      // Fallback: force full page reload
       window.location.href = "/";
     }
   };

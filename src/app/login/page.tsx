@@ -68,11 +68,13 @@ export default function LoginPage() {
       if (!res.ok) {
         throw new Error(data.message || "Login failed");
       }
+      console.log(res, ">?>?>?>");
+
       window.dispatchEvent(new Event("userLoggedIn"));
       router.push("/dashboard");
     } catch (err) {
       console.error("Login error:", err);
-      setError("An unexpected error occurred");
+      setError("An unexpected error occurred. Try again later.");
     } finally {
       setLoading(false); // stop loading
     }

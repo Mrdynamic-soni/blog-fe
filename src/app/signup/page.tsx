@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { Eye, EyeOff, Mail, Lock } from "lucide-react";
+import { Eye, EyeOff, Mail, Lock, Loader2 } from "lucide-react";
 import { useRedirectIfAuthenticated } from "@/lib/auth/checkAndRedirect";
 
 export default function SignupPage() {
@@ -15,6 +15,7 @@ export default function SignupPage() {
   const [error, setError] = useState("");
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const validateEmail = (email: string) => {
     const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -31,6 +32,7 @@ export default function SignupPage() {
     setError("");
     setEmailError("");
     setPasswordError("");
+    setLoading(true);
 
     let isValid = true;
 
@@ -46,7 +48,10 @@ export default function SignupPage() {
       isValid = false;
     }
 
-    if (!isValid) return;
+    if (!isValid) {
+      setLoading(false);
+      return;
+    }
 
     try {
       const res = await fetch(
@@ -67,10 +72,12 @@ export default function SignupPage() {
         throw new Error(data.message || "Signup failed");
       }
 
-      router.push("/dashboard"); // or redirect to /login
+      router.push("/login");
     } catch (err) {
       console.error("Signup error:", err);
       setError("An unexpected error occurred");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -129,9 +136,17 @@ export default function SignupPage() {
 
         <button
           type="submit"
-          className="w-full bg-green-600 text-white py-2 rounded-md hover:bg-green-700"
+          className="w-full bg-green-600 text-white py-2 rounded-md hover:bg-green-700 flex items-center justify-center gap-2 disabled:opacity-70"
+          disabled={loading}
         >
-          Sign Up
+          {loading ? (
+            <>
+              <Loader2 className="animate-spin" size={18} />
+              Signing up...
+            </>
+          ) : (
+            "Sign Up"
+          )}
         </button>
 
         <p className="text-center text-sm text-gray-600">
