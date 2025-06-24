@@ -1,42 +1,47 @@
-# Personal Blog Platform
+# Personal Blog Platform (Frontend)
 
-A full-stack personal blog platform where users can sign up, log in, read articles and post their own articles. Built with Next.js 15 with TypeScript .
+A full-stack personal blog platform where users can sign up, log in, read articles, and post their own articles.  
+Frontend built with **Next.js 14** and **TypeScript**.  
+Backend: [blog-be](https://github.com/Mrdynamic-soni/blogging-be) (Node.js/Express/PostgreSQL).
+Hosted Frontend: https://blogs-sand-three.vercel.app/
 
 ---
 
-## Features
+## 🚀 Features
 
-- User registration and authentication (JWT-based)
-- Secure password storage (hashed)
-- Post creation, listing, and filtering by author
-- Server-side rendering for homepage
-- Static generation for individual blog posts (if implemented)
+- User registration and authentication (JWT-based, secure cookies)
+- Secure password storage (hashed, handled by backend)
+- Create, list, and filter blog posts by author
+- **Server-side rendering (SSR)** for homepage
+- **Static generation (SSG)** for individual blog posts
 - Protected routes for posting and dashboard
 - Responsive, clean UI with Tailwind CSS
+- Mobile-friendly and accessible design
 
 ---
 
-## Project Structure
+## 🏗️ Project Structure
 
 ```
-blog-fe/                # Frontend (Next.js 14, TypeScript)
+blog-fe/
   src/
     app/
-      page.tsx          # Homepage (SSR)
-      login/            # Login page
-      signup/           # Signup page
-      dashboard/        # User dashboard (protected)
-      dashboard/create/ # Create post page (protected)
-    component/          # Reusable components (Header, BlogCard, etc.)
-    types/              # TypeScript types
-    lib/                # Utility functions (auth, etc.)
-  public/               # Static assets
+      page.tsx                # Homepage (SSR, lists all posts)
+      login/                  # Login page
+      signup/                 # Signup page
+      dashboard/              # User dashboard (protected)
+      dashboard/create/       # Create post page (protected)
+      posts/[id]/page.tsx     # Static blog post page (SSG)
+    component/                # Reusable components (Header, BlogCard, etc.)
+    types/                    # TypeScript types
+    lib/                      # Utility functions (auth, etc.)
+  public/                     # Static assets
   ...
 ```
 
 ---
 
-## Setup Instructions
+## ⚙️ Setup Instructions
 
 ### Prerequisites
 
@@ -67,6 +72,9 @@ blog-fe/                # Frontend (Next.js 14, TypeScript)
      JWT_SECRET=your_jwt_secret
      ```
 
+   > **Note:**  
+   > Never commit your `.env.local` or any secret credentials to version control.
+
 4. **Run the development server:**
 
    ```bash
@@ -77,7 +85,7 @@ blog-fe/                # Frontend (Next.js 14, TypeScript)
 
 ---
 
-## Key Commands
+## 🗝️ Key Commands
 
 - `yarn dev` — Start the development server
 - `yarn build` — Build for production
@@ -85,13 +93,36 @@ blog-fe/                # Frontend (Next.js 14, TypeScript)
 
 ---
 
-## Choices & Considerations
+## 📚 Pages & Routing
 
-- **Next.js 14 App Directory**: Enables SSR and SSG out of the box.
-- **JWT Authentication**: Secure, stateless sessions.
-- **Tailwind CSS**: Utility-first, responsive styling.
-- **TypeScript**: Type safety across the codebase.
+- `/` — Homepage, lists all blog posts (SSR)
+- `/login` — Login page
+- `/signup` — Signup page
+- `/dashboard` — User dashboard (protected, shows your posts)
+- `/dashboard/create` — Create a new post (protected)
+- `/posts/[id]` — Full blog post page (SSG, mobile-optimized)
 
 ---
 
-## License
+## 🛡️ Security & Best Practices
+
+- **No hardcoded credentials:** All secrets and API URLs are managed via environment variables.
+- **JWT authentication:** Secure, stateless sessions via HTTP-only cookies.
+- **Protected routes:** Dashboard and post creation are only accessible to authenticated users.
+- **.env files are gitignored:** Your secrets are safe.
+
+---
+
+## 📝 Development Choices
+
+- **Next.js 14 App Directory:** Enables SSR and SSG out of the box.
+- **TypeScript:** Type safety across the codebase.
+- **Tailwind CSS:** Utility-first, responsive styling.
+- **React Hooks:** Modern, maintainable state management.
+
+---
+
+## 🤝 Backend
+
+This frontend expects the backend API to be running at the URL specified in your `.env.local` file.  
+See [blog-be](https://github.com/Mrdynamic-soni/blogging-be) for backend setup and API documentation.
