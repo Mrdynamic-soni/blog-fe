@@ -44,5 +44,7 @@ export async function logoutAction() {
   }
 
   // Clear client-side storage via redirect
-  redirect("/?logout=success");
+
+  window.dispatchEvent(new Event("userLoggedOut"));
+  redirect("/");
 }

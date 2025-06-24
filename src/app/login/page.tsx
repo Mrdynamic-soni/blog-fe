@@ -68,7 +68,6 @@ export default function LoginPage() {
       if (!res.ok) {
         throw new Error(data.message || "Login failed");
       }
-      console.log(res, ">?>?>?>");
 
       window.dispatchEvent(new Event("userLoggedIn"));
       router.push("/dashboard");
